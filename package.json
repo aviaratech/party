@@ -1,0 +1,104 @@
+{
+  "name": "@aviaratech/party",
+  "version": "0.1.0",
+  "description": "Headless browser Party lifecycle, bounded channels, and an optional React adapter for small peer-to-peer applications.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aviaratech/party.git"
+  },
+  "homepage": "https://github.com/aviaratech/party#readme",
+  "bugs": {
+    "url": "https://github.com/aviaratech/party/issues"
+  },
+  "keywords": [
+    "browser",
+    "multiplayer",
+    "networking",
+    "nostr",
+    "peer-to-peer",
+    "react",
+    "trystero",
+    "webrtc"
+  ],
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./browser": {
+      "types": "./dist/browser/lifecycle.d.ts",
+      "import": "./dist/browser/lifecycle.js",
+      "default": "./dist/browser/lifecycle.js"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.js",
+      "default": "./dist/react/index.js"
+    },
+    "./trystero-nostr": {
+      "types": "./dist/transport/trysteroNostr.d.ts",
+      "import": "./dist/transport/trysteroNostr.js",
+      "default": "./dist/transport/trysteroNostr.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "node scripts/clean.mjs",
+    "format": "oxfmt src scripts examples package.json tsconfig*.json",
+    "format:check": "oxfmt --check src scripts examples package.json tsconfig*.json",
+    "lint": "oxlint src scripts examples",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "build": "npm run clean && tsc -p tsconfig.build.json",
+    "examples:check": "tsc -p tsconfig.examples.json",
+    "pack:check": "node scripts/audit-pack.mjs",
+    "consumer:check": "node scripts/verify-packed-consumer.mjs",
+    "checks": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run audit && npm run build && npm run examples:check && npm run pack:check && npm run consumer:check",
+    "prepublishOnly": "node scripts/assert-publish-ready.mjs && npm run checks",
+    "audit": "npm audit --audit-level=moderate"
+  },
+  "dependencies": {
+    "@trystero-p2p/core": "0.25.4",
+    "@trystero-p2p/nostr": "0.25.4"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^24.12.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "jsdom": "^29.1.1",
+    "oxfmt": "^0.68.0",
+    "oxlint": "^1.83.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "typescript": "~6.0.2",
+    "vitest": "^4.1.11"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@11.19.0",
+  "overrides": {
+    "vite": "^8.0.16",
+    "undici": "^7.28.0"
+  }
+}
